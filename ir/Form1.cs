@@ -167,7 +167,22 @@ namespace ir
 
         public static void SerialReading(int mode)
         {
-            string port = "COM5";
+            string comPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\com.conf";
+            string port = "";
+            try
+            {
+                port = System.IO.File.ReadAllText(comPath);
+            }
+            catch (Exception ex)
+            {
+                System.IO.File.WriteAllText(comPath, "COM3");
+
+                MessageBox.Show("And now this app will be exit. Please configure COM port settings in: " + comPath);
+                Application.Exit();
+
+                return;
+            }
+            
             SerialPort mySerialPort = new SerialPort(port);
 
             mySerialPort.BaudRate = 115200;
