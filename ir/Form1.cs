@@ -17,6 +17,7 @@ namespace ir
         const int SENDKEY = 1;
         const int READKEY = 2;
         private static string keystrokeToSave;
+        private static SerialPort serial;
 
         public Form1()
         {
@@ -183,25 +184,26 @@ namespace ir
                 return;
             }
             
-            SerialPort mySerialPort = new SerialPort(port);
+            serial = new SerialPort(port);
 
-            mySerialPort.BaudRate = 115200;
-            mySerialPort.Parity = Parity.None;
-            mySerialPort.StopBits = StopBits.One;
-            mySerialPort.DataBits = 8;
-            mySerialPort.Handshake = Handshake.None;
+            serial.BaudRate = 115200;
+            serial.Parity = Parity.None;
+            serial.StopBits = StopBits.One;
+            serial.DataBits = 8;
+            serial.Handshake = Handshake.None;
 
             if (mode == SENDKEY)
             {
-                mySerialPort.DataReceived += new SerialDataReceivedEventHandler(sendKeyStroke);
+                serial.DataReceived += new SerialDataReceivedEventHandler(sendKeyStroke);
             }
             else if (mode == READKEY)
             {
-                mySerialPort.DataReceived += new SerialDataReceivedEventHandler(saveKeyStroke);
+                serial.DataReceived += new SerialDataReceivedEventHandler(saveKeyStroke);
             }
+
             try
             {
-                mySerialPort.Open();
+                serial.Open();
             }
             catch (Exception ex)
             {
@@ -223,6 +225,21 @@ namespace ir
             SerialPort sp = (SerialPort)sender;
             keystrokeToSave = sp.ReadExisting();
             
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!serial.IsOpen)
+                {
+                    serial.Open();
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
     }
 }
