@@ -7,3 +7,13 @@ c:\users\wnmer\source\repos\KodiIR\KodiIR\obj\Debug\KodiIR.csproj.GenerateResour
 c:\users\wnmer\source\repos\KodiIR\KodiIR\obj\Debug\KodiIR.csproj.CoreCompileInputs.cache
 c:\users\wnmer\source\repos\KodiIR\KodiIR\obj\Debug\KodiIR.exe
 c:\users\wnmer\source\repos\KodiIR\KodiIR\obj\Debug\KodiIR.pdb
+C:\Users\wnmer\source\repos\ArduinoIRKodiRemote3\KodiIR\obj\Debug\KodiIR.csprojAssemblyReference.cache
+C:\Users\wnmer\source\repos\ArduinoIRKodiRemote3\KodiIR\obj\Debug\KodiIR.Form1.resources
+C:\Users\wnmer\source\repos\ArduinoIRKodiRemote3\KodiIR\obj\Debug\KodiIR.Properties.Resources.resources
+C:\Users\wnmer\source\repos\ArduinoIRKodiRemote3\KodiIR\obj\Debug\KodiIR.csproj.GenerateResource.cache
+C:\Users\wnmer\source\repos\ArduinoIRKodiRemote3\KodiIR\obj\Debug\KodiIR.csproj.CoreCompileInputs.cache
+C:\Users\wnmer\source\repos\ArduinoIRKodiRemote3\KodiIR\obj\Debug\KodiIR.exe
+C:\Users\wnmer\source\repos\ArduinoIRKodiRemote3\KodiIR\obj\Debug\KodiIR.pdb
+C:\Users\wnmer\source\repos\ArduinoIRKodiRemote3\KodiIR\bin\Debug\KodiIR.exe.config
+C:\Users\wnmer\source\repos\ArduinoIRKodiRemote3\KodiIR\bin\Debug\KodiIR.exe
+C:\Users\wnmer\source\repos\ArduinoIRKodiRemote3\KodiIR\bin\Debug\KodiIR.pdb

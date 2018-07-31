@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -22,10 +24,13 @@ namespace KodiIR
         private static string Port;
         private static int btnindex;
         private static bool Mapping;
-
+        [DllImport("USER32.DLL", CharSet = CharSet.Unicode)]
+        public static extern IntPtr FindWindow(string lpClassName,
+            string lpWindowName);
         private static Form1 Instance;
         private static Dictionary<Buttons,string> MappingDict = new Dictionary<Buttons, string>();
-         
+        public static bool IsLocal() => Instance.textBox1.Text == "127.0.0.1";
+        
         public enum Buttons
         {
             Up,
@@ -39,7 +44,8 @@ namespace KodiIR
             ShowCodec,
             ShowOSD,
             ShowPlayerProcessInfo,
-            Back
+            Back,
+            Quit
         }
 
         public static string[] GetBtnArr => Enum.GetNames(typeof(Buttons));
@@ -109,11 +115,19 @@ namespace KodiIR
                 MessageBox.Show($"Can't open {Port}, maybe you forgot to close Arduino port monitor?");
             }
         }
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+        [DllImport("user32.dll")]
+        static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+        private const int GWL_EX_STYLE = -20;
+        private const int WS_EX_APPWINDOW = 0x00040000, WS_EX_TOOLWINDOW = 0x00000080;
 
         private static void ProcessData(object sender, SerialDataReceivedEventArgs e)
         {
             SerialPort sp = sender as SerialPort;
             string data = sp.ReadExisting();
+            Action action3 = () => Instance.label4.Text = $"Last pressed: {data}";
+            Instance.label4.Invoke(action3);
             if (Mapping)
             {
                 if (Enum.GetNames(typeof(Buttons)).Length - 1 >= btnindex)
@@ -144,7 +158,7 @@ namespace KodiIR
                 }
 
                 var btn = MappingDict.FirstOrDefault(n => n.Value == data);
-                if (!btn.Equals(null))
+                if (!btn.Equals(null)&&btn.Value!=null)
                 {
                     string k = "";
                     var btnn = btn.Key;
@@ -185,7 +199,48 @@ namespace KodiIR
                             k = "{\"jsonrpc\": \"2.0\", \"id\": 1, \"method\": \"Input.ShowCodec\"}";
                             break;
                         case Buttons.ShowPlayerProcessInfo:
-                            k = "{\"jsonrpc\": \"2.0\", \"id\": 1, \"method\": \"Input.Input.ShowPlayerProcessInfo\"}";
+                            k = "{\"jsonrpc\": \"2.0\", \"id\": 1, \"method\": \"Input.ShowPlayerProcessInfo\"}";
+                            break;
+                        case Buttons.Quit:
+                            string appName = "Kodi";
+                            IntPtr calculatorHandle = FindWindow(null, appName);
+                            if (calculatorHandle == IntPtr.Zero)
+                            {
+                                if (IsLocal())
+                                {
+                                    System.Diagnostics.Process.Start(@"C:\Program Files (x86)\Kodi\Kodi.exe");
+                                }
+                            }
+                            else
+                            {
+                                if (IsLocal())
+                                {
+                                    try
+                                    {
+
+
+                                        System.Diagnostics.Process[] pname =
+                                            System.Diagnostics.Process.GetProcessesByName("Kodi");
+
+                                        if (pname.Length != 0)
+                                        {
+                                            foreach (var process in pname)
+                                            {
+                                                process.Kill();
+                                            }
+                                        }
+                                    }
+                                    catch (Exception)
+                                    {
+                                        //Skipped
+                                    }
+                                }
+                                else
+                                {
+                                    k = "{\"jsonrpc\": \"2.0\", \"id\": 1, \"method\": \"Application.Quit\"}";
+                                }
+                            }
+
                             break;
                        
                     }
@@ -194,14 +249,31 @@ namespace KodiIR
                     {
                         try
                         {
-                           
-                               var p = $"http://{Instance.textBox1.Text.Trim()}:{Instance.textBox2.Text.Trim()}/jsonrpc?request={k}";
+
+                            var p =
+                                $"http://{Instance.textBox1.Text.Trim()}:{Instance.textBox2.Text.Trim()}/jsonrpc?request={k}";
                             new WebClient().DownloadString(
-                               p);
+                                p);
                         }
-                        catch (Exception exception)
+                        catch (Exception)
                         {
-                            MessageBox.Show("Can't reach server, enable remote control in kodi -> settings -> service");
+                            if (IsLocal())
+                            {
+                                System.Diagnostics.Process[] pname =
+                                    System.Diagnostics.Process.GetProcessesByName("Kodi");
+
+                                if (pname.Length != 0)
+                                {
+                                    MessageBox.Show(
+                                        "Can't reach server, enable remote control in kodi -> settings -> service");
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show(
+                                    "Can't reach server, enable remote control in kodi -> settings -> service");
+
+                            }
                         }
                     }
                 }
