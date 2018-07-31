@@ -2,6 +2,7 @@
 IR Remote with Arduino to Kodi
 
 This is a remote control to Kodi if you have an Arduino and an IR receiver.
+
 *Circut*
 
 ![Image of circut](https://i.imgur.com/mCkuSiA.png)
