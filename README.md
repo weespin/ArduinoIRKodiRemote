@@ -1,4 +1,4 @@
-# ArduinoIRKodiRemote
+# ArduinoIRKodiRemote2
 IR Remote with Arduino to Kodi
 
 This is a remote control to Kodi if you have an Arduino and an IR receiver.
