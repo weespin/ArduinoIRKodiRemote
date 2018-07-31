@@ -1,0 +1,9 @@
+c:\users\wnmer\source\repos\KodiIR\KodiIR\bin\Debug\KodiIR.exe.config
+c:\users\wnmer\source\repos\KodiIR\KodiIR\bin\Debug\KodiIR.exe
+c:\users\wnmer\source\repos\KodiIR\KodiIR\bin\Debug\KodiIR.pdb
+c:\users\wnmer\source\repos\KodiIR\KodiIR\obj\Debug\KodiIR.Form1.resources
+c:\users\wnmer\source\repos\KodiIR\KodiIR\obj\Debug\KodiIR.Properties.Resources.resources
+c:\users\wnmer\source\repos\KodiIR\KodiIR\obj\Debug\KodiIR.csproj.GenerateResource.cache
+c:\users\wnmer\source\repos\KodiIR\KodiIR\obj\Debug\KodiIR.csproj.CoreCompileInputs.cache
+c:\users\wnmer\source\repos\KodiIR\KodiIR\obj\Debug\KodiIR.exe
+c:\users\wnmer\source\repos\KodiIR\KodiIR\obj\Debug\KodiIR.pdb

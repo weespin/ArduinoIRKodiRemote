@@ -39,4 +39,3 @@ void keystroke() {
 
   Serial.println(key, HEX);
 }
-
