@@ -74,9 +74,9 @@ namespace KodiIR
             {
                 cmb_serial.Text = serials[0];
                 Port = serials[0];
-                for (var index = 0; index < serials.Length; index++)
+                foreach (var t in serials)
                 {
-                    cmb_serial.Items.Add(serials[index]);
+                    cmb_serial.Items.Add(t);
                 }
             }
             else
