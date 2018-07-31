@@ -115,12 +115,7 @@ namespace KodiIR
                 MessageBox.Show($"Can't open {Port}, maybe you forgot to close Arduino port monitor?");
             }
         }
-        [DllImport("user32.dll", SetLastError = true)]
-        static extern int GetWindowLong(IntPtr hWnd, int nIndex);
-        [DllImport("user32.dll")]
-        static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
-        private const int GWL_EX_STYLE = -20;
-        private const int WS_EX_APPWINDOW = 0x00040000, WS_EX_TOOLWINDOW = 0x00000080;
+      
 
         private static void ProcessData(object sender, SerialDataReceivedEventArgs e)
         {
@@ -188,7 +183,6 @@ namespace KodiIR
                         case Buttons.Home:
                             k = "{\"jsonrpc\": \"2.0\", \"id\": 1, \"method\": \"Input.Home\"}";
                             break;
-             
                         case Buttons.Back:
                             k = "{\"jsonrpc\": \"2.0\", \"id\": 1, \"method\": \"Input.Back\"}";
                             break;
@@ -208,7 +202,7 @@ namespace KodiIR
                             {
                                 if (IsLocal())
                                 {
-                                    System.Diagnostics.Process.Start(@"C:\Program Files (x86)\Kodi\Kodi.exe");
+                                    Process.Start(@"C:\Program Files (x86)\Kodi\Kodi.exe");
                                 }
                             }
                             else
@@ -217,11 +211,7 @@ namespace KodiIR
                                 {
                                     try
                                     {
-
-
-                                        System.Diagnostics.Process[] pname =
-                                            System.Diagnostics.Process.GetProcessesByName("Kodi");
-
+                                        Process[] pname = Process.GetProcessesByName("Kodi");
                                         if (pname.Length != 0)
                                         {
                                             foreach (var process in pname)
@@ -240,16 +230,13 @@ namespace KodiIR
                                     k = "{\"jsonrpc\": \"2.0\", \"id\": 1, \"method\": \"Application.Quit\"}";
                                 }
                             }
-
                             break;
                        
                     }
-
                     if (k != "")
                     {
                         try
                         {
-
                             var p =
                                 $"http://{Instance.textBox1.Text.Trim()}:{Instance.textBox2.Text.Trim()}/jsonrpc?request={k}";
                             new WebClient().DownloadString(
@@ -261,7 +248,6 @@ namespace KodiIR
                             {
                                 System.Diagnostics.Process[] pname =
                                     System.Diagnostics.Process.GetProcessesByName("Kodi");
-
                                 if (pname.Length != 0)
                                 {
                                     MessageBox.Show(
@@ -272,14 +258,10 @@ namespace KodiIR
                             {
                                 MessageBox.Show(
                                     "Can't reach server, enable remote control in kodi -> settings -> service");
-
                             }
                         }
                     }
                 }
-
-
-
                 //sendMessage(indata);
             }
         }

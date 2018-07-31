@@ -17,7 +17,7 @@ void setup()
 void loop() {
   if (irrecv.decode(&results)) {
     keystroke();
-    delay(80);
+    delay(150);
     irrecv.resume(); // Receive the next value
   }
 }
